@@ -1,23 +1,44 @@
-import logo from './logo.svg';
+
+import React, { useState } from 'react';
 import './App.css';
+import Display from './Display';
+import ButtonPanel from './ButtonPanel';
 
 function App() {
+  const [input, setInput] = useState('');
+  const [result, setResult] = useState('');
+
+  const handleButtonClick = (value) => {
+    setInput(input + value);
+  };
+
+  const handleClear = () => {
+    setInput('');
+    setResult('');
+  };
+
+  const handleBackspace = () => {
+    setInput(input.slice(0, -1));
+  };
+
+  const handleCalculate = () => {
+    try {
+      const evalResult = eval(input);
+      setResult(evalResult.toString());
+    } catch (error) {
+      setResult('Error');
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="calculator">
+      <Display input={input} result={result} />
+      <ButtonPanel 
+        handleButtonClick={handleButtonClick}
+        handleClear={handleClear}
+        handleBackspace={handleBackspace}
+        handleCalculate={handleCalculate}
+      />
     </div>
   );
 }
